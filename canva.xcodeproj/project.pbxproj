@@ -24,6 +24,11 @@
 		BC364C812E6C89B4005CE59A /* FirebaseHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC364C802E6C89B4005CE59A /* FirebaseHelpers.swift */; };
 		BC364C832E6C92DA005CE59A /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC364C822E6C92DA005CE59A /* RootTabView.swift */; };
 		BC364C852E6C9305005CE59A /* AddMedicineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC364C842E6C9305005CE59A /* AddMedicineView.swift */; };
+		BC4EFAF32E6CA70000163F25 /* TimeWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAF22E6CA70000163F25 /* TimeWheel.swift */; };
+		BC4EFAF52E6CAC7D00163F25 /* DailyIntakeDynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAF42E6CAC7D00163F25 /* DailyIntakeDynamic.swift */; };
+		BC4EFAF72E6CB31100163F25 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAF62E6CB31100163F25 /* ScheduleViewModel.swift */; };
+		BC4EFAF92E6CB33500163F25 /* CategoryAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAF82E6CB33500163F25 /* CategoryAssets.swift */; };
+		BC4EFAFB2E6CB42200163F25 /* MedicineCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAFA2E6CB42200163F25 /* MedicineCards.swift */; };
 		BC8E1CCF2E6C040B00EF3DCC /* canvaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */; };
 		BC8E1CD12E6C040B00EF3DCC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */; };
 		BC8E1CD32E6C040E00EF3DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC8E1CD22E6C040E00EF3DCC /* Assets.xcassets */; };
@@ -57,6 +62,11 @@
 		BC364C802E6C89B4005CE59A /* FirebaseHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelpers.swift; sourceTree = "<group>"; };
 		BC364C822E6C92DA005CE59A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		BC364C842E6C9305005CE59A /* AddMedicineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMedicineView.swift; sourceTree = "<group>"; };
+		BC4EFAF22E6CA70000163F25 /* TimeWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeWheel.swift; sourceTree = "<group>"; };
+		BC4EFAF42E6CAC7D00163F25 /* DailyIntakeDynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyIntakeDynamic.swift; sourceTree = "<group>"; };
+		BC4EFAF62E6CB31100163F25 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
+		BC4EFAF82E6CB33500163F25 /* CategoryAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAssets.swift; sourceTree = "<group>"; };
+		BC4EFAFA2E6CB42200163F25 /* MedicineCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineCards.swift; sourceTree = "<group>"; };
 		BC8E1CCB2E6C040B00EF3DCC /* canva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = canva.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = canvaApp.swift; sourceTree = "<group>"; };
 		BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -124,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */,
+				BC4EFAF82E6CB33500163F25 /* CategoryAssets.swift */,
 				BC13EC7F2E6C8866006D7E2A /* AppDelegate.swift */,
 				BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */,
 				BC13EC7B2E6C8463006D7E2A /* FirestoreTest.swift */,
@@ -132,6 +143,10 @@
 				BC364C802E6C89B4005CE59A /* FirebaseHelpers.swift */,
 				BC364C822E6C92DA005CE59A /* RootTabView.swift */,
 				BC364C842E6C9305005CE59A /* AddMedicineView.swift */,
+				BC4EFAF22E6CA70000163F25 /* TimeWheel.swift */,
+				BC4EFAF42E6CAC7D00163F25 /* DailyIntakeDynamic.swift */,
+				BC4EFAF62E6CB31100163F25 /* ScheduleViewModel.swift */,
+				BC4EFAFA2E6CB42200163F25 /* MedicineCards.swift */,
 			);
 			path = canva;
 			sourceTree = "<group>";
@@ -307,9 +322,14 @@
 				BC364C812E6C89B4005CE59A /* FirebaseHelpers.swift in Sources */,
 				BC364C852E6C9305005CE59A /* AddMedicineView.swift in Sources */,
 				BC13EC802E6C8866006D7E2A /* AppDelegate.swift in Sources */,
+				BC4EFAF72E6CB31100163F25 /* ScheduleViewModel.swift in Sources */,
+				BC4EFAF52E6CAC7D00163F25 /* DailyIntakeDynamic.swift in Sources */,
 				BC8E1CD12E6C040B00EF3DCC /* ContentView.swift in Sources */,
 				BC13EC7C2E6C8463006D7E2A /* FirestoreTest.swift in Sources */,
 				BC364C832E6C92DA005CE59A /* RootTabView.swift in Sources */,
+				BC4EFAF92E6CB33500163F25 /* CategoryAssets.swift in Sources */,
+				BC4EFAFB2E6CB42200163F25 /* MedicineCards.swift in Sources */,
+				BC4EFAF32E6CA70000163F25 /* TimeWheel.swift in Sources */,
 				BC8E1CCF2E6C040B00EF3DCC /* canvaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

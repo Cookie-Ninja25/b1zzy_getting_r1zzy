@@ -86,7 +86,7 @@ struct ContentView: View {
                         .foregroundColor(.white.opacity(0.9))
 
                     // Cycle Wheel
-                    CycleWheel()
+                    TimeWheel()
                         .frame(width: 240, height: 240)
 
                     // Mood card
@@ -106,7 +106,8 @@ struct ContentView: View {
                             UpcomingCard(title: upcomingTitle, subtitle: upcomingSub)
                         }
 
-                        DailyIntake(intakes: $intakes)
+//                        DailyIntake(intakes: $intakes)
+                        DailyIntakeDynamic()
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 24)
@@ -335,7 +336,7 @@ struct DailyIntake: View {
                 VStack(alignment: .leading, spacing: 10) {
                     ForEach($intakes) { $item in
                         HStack(spacing: 8) {
-                            CheckBox(checked: $item.taken)
+//                            CheckBox(checked: $item.taken)
                             Text(item.name)
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.white)
@@ -350,24 +351,24 @@ struct DailyIntake: View {
     }
 }
 
-struct CheckBox: View {
-    @Binding var checked: Bool
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .strokeBorder(Color.white, lineWidth: 2)
-                .frame(width: 22, height: 22)
-                .background(checked ? Color.white.opacity(0.15) : Color.clear)
-                .cornerRadius(5)
-            if checked {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(.white)
-            }
-        }
-        .onTapGesture { checked.toggle() } // no animation for compatibility
-    }
-}
+//struct CheckBox: View {
+//    @Binding var checked: Bool
+//    var body: some View {
+//        ZStack {
+//            RoundedRectangle(cornerRadius: 5)
+//                .strokeBorder(Color.white, lineWidth: 2)
+//                .frame(width: 22, height: 22)
+//                .background(checked ? Color.white.opacity(0.15) : Color.clear)
+//                .cornerRadius(5)
+//            if checked {
+//                Image(systemName: "checkmark")
+//                    .font(.system(size: 12, weight: .bold))
+//                    .foregroundColor(.white)
+//            }
+//        }
+//        .onTapGesture { checked.toggle() } // no animation for compatibility
+//    }
+//}
 
 // MARK: - Preview
 struct ContentView_Previews: PreviewProvider {

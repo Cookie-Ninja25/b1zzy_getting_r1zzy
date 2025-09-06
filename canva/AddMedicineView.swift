@@ -25,12 +25,23 @@ enum TimeOfDay: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+/// New: Medicine categories (instead of “strength”)
+enum MedCategory: String, CaseIterable, Identifiable {
+    case diabetes = "Diabetes Medicine"
+    case vitamins = "Vitamin Supplements"
+    case bloodPressure = "Blood Pressure Medicine"
+    case antibiotics = "Antibiotics"
+    case antidepressants = "Antidepressants"
+
+    var id: String { rawValue }
+}
+
 // MARK: - View
 struct AddMedicineView: View {
     // Basics
     @State private var name: String = ""
     @State private var medType: MedType = .tablet
-    @State private var strength: String = "500 mg"
+    @State private var category: MedCategory = .diabetes   // dropdown
 
     // Schedule
     @State private var frequency: Frequency = .daily
@@ -63,29 +74,43 @@ struct AddMedicineView: View {
                     }
                     .frame(maxWidth: .infinity)
 
-                    // Wheel (simple placeholder)
+                    // Wheel (placeholder / reuse your CycleWheel)
                     CycleWheel()
                         .frame(width: 220, height: 220)
                         .frame(maxWidth: .infinity)
 
+                    // Basics
                     GroupBoxLabel("Medicine basics")
 
-                    VStack(alignment: .leading, spacing: 14) {
-                        RoundedSection {
-                            HStack {
-                                LabeledTextField(title: "Medicine name", text: $name, placeholder: "Metformin")
-                                Picker("Type", selection: $medType) {
+                    RoundedSection {
+                        HStack {
+                            LabeledTextField(title: "Medicine name", text: $name, placeholder: "Metformin")
+
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Form")
+                                    .font(.headline)
+                                    .foregroundColor(.cardBg.opacity(0.9))
+                                Picker("Form", selection: $medType) {
                                     ForEach(MedType.allCases) { t in Text(t.rawValue).tag(t) }
                                 }
                                 .pickerStyle(.menu)
                                 .tint(.cardBg)
-                                .foregroundColor(.cardBg)
                             }
+                        }
 
-                            LabeledTextField(title: "", text: $strength, placeholder: "500 mg")
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Type of Medicine")
+                                .font(.headline)
+                                .foregroundColor(.cardBg.opacity(0.9))
+                            Picker("Category", selection: $category) {
+                                ForEach(MedCategory.allCases) { c in Text(c.rawValue).tag(c) }
+                            }
+                            .pickerStyle(.menu)
+                            .tint(.cardBg)
                         }
                     }
 
+                    // Schedule
                     GroupBoxLabel("Schedule")
 
                     RoundedSection {
@@ -109,7 +134,6 @@ struct AddMedicineView: View {
                                     .font(.headline).foregroundColor(.cardBg)
                                     .frame(width: 30)
                             }
-                            .labelsHidden()
                         }
 
                         FlowChips(
@@ -118,6 +142,7 @@ struct AddMedicineView: View {
                         )
                     }
 
+                    // Reminder
                     GroupBoxLabel("Reminder")
 
                     RoundedSection {
@@ -177,16 +202,15 @@ struct AddMedicineView: View {
         let db = Firestore.firestore()
         let doc: [String: Any] = [
             "name": name,
-            "type": medType.rawValue,
-            "strength": strength,
+            "form": medType.rawValue,
+            "category": category.rawValue,   // NEW
             "frequency": frequency.rawValue,
             "perIntake": perIntake,
             "times": Array(timesSelected.map { $0.rawValue }),
             "reminderTone": reminderTone,
             "reminderVolume": reminderVolume,
             "createdAt": Timestamp(date: Date()),
-            // TODO: once Auth is added, set ownerId = request.auth.uid
-            "ownerId": "dev"
+            "ownerId": "dev" // replace with auth later
         ]
 
         do {
@@ -196,17 +220,15 @@ struct AddMedicineView: View {
                     else { cont.resume() }
                 }
             }
-            saveMessage = "Saved \(name)."
+            saveMessage = "✅ Saved \(name)."
         } catch {
-            saveMessage = "Save failed: \(error.localizedDescription)"
+            saveMessage = "❌ Save failed: \(error.localizedDescription)"
         }
         isSaving = false
     }
 }
 
 // MARK: - Small UI helpers
-
-/// Brown, rounded container used in the mock
 private struct RoundedSection<Content: View>: View {
     let content: Content
     init(@ViewBuilder _ content: () -> Content) { self.content = content() }
@@ -224,7 +246,6 @@ private struct RoundedSection<Content: View>: View {
     }
 }
 
-/// Section title label
 private struct GroupBoxLabel: View {
     var title: String
     init(_ title: String) { self.title = title }
@@ -236,7 +257,6 @@ private struct GroupBoxLabel: View {
     }
 }
 
-/// Label + TextField pair with themed styling
 private struct LabeledTextField: View {
     var title: String
     @Binding var text: String
@@ -262,7 +282,6 @@ private struct LabeledTextField: View {
     }
 }
 
-/// Selectable chips for Sunrise / Midday / Sunset / Night
 private struct FlowChips: View {
     let all: [TimeOfDay]
     @Binding var selection: Set<TimeOfDay>
@@ -293,3 +312,4 @@ private struct FlowChips: View {
         }
     }
 }
+
