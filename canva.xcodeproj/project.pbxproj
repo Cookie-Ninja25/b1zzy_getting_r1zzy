@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC13EC6D2E6C790C006D7E2A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC13EC6C2E6C790C006D7E2A /* GoogleService-Info.plist */; };
+		BC13EC6E2E6C790C006D7E2A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC13EC6C2E6C790C006D7E2A /* GoogleService-Info.plist */; };
+		BC13EC6F2E6C790C006D7E2A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC13EC6C2E6C790C006D7E2A /* GoogleService-Info.plist */; };
+		BC13EC722E6C7A85006D7E2A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BC13EC712E6C7A85006D7E2A /* FirebaseAuth */; };
+		BC13EC742E6C7A85006D7E2A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = BC13EC732E6C7A85006D7E2A /* FirebaseFirestore */; };
+		BC13EC762E6C7A85006D7E2A /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BC13EC752E6C7A85006D7E2A /* FirebaseFirestoreSwift */; };
+		BC13EC782E6C7A85006D7E2A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = BC13EC772E6C7A85006D7E2A /* FirebaseMessaging */; };
+		BC13EC7A2E6C7A85006D7E2A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BC13EC792E6C7A85006D7E2A /* FirebaseStorage */; };
+		BC13EC7C2E6C8463006D7E2A /* FirestoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC13EC7B2E6C8463006D7E2A /* FirestoreTest.swift */; };
+		BC13EC7D2E6C8463006D7E2A /* FirestoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC13EC7B2E6C8463006D7E2A /* FirestoreTest.swift */; };
+		BC13EC7E2E6C8463006D7E2A /* FirestoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC13EC7B2E6C8463006D7E2A /* FirestoreTest.swift */; };
+		BC13EC802E6C8866006D7E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC13EC7F2E6C8866006D7E2A /* AppDelegate.swift */; };
+		BC13EC812E6C8866006D7E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC13EC7F2E6C8866006D7E2A /* AppDelegate.swift */; };
+		BC13EC822E6C8866006D7E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC13EC7F2E6C8866006D7E2A /* AppDelegate.swift */; };
+		BC364C812E6C89B4005CE59A /* FirebaseHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC364C802E6C89B4005CE59A /* FirebaseHelpers.swift */; };
+		BC364C832E6C92DA005CE59A /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC364C822E6C92DA005CE59A /* RootTabView.swift */; };
+		BC364C852E6C9305005CE59A /* AddMedicineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC364C842E6C9305005CE59A /* AddMedicineView.swift */; };
 		BC8E1CCF2E6C040B00EF3DCC /* canvaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */; };
 		BC8E1CD12E6C040B00EF3DCC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */; };
 		BC8E1CD32E6C040E00EF3DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC8E1CD22E6C040E00EF3DCC /* Assets.xcassets */; };
@@ -34,6 +51,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC13EC6C2E6C790C006D7E2A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BC13EC7B2E6C8463006D7E2A /* FirestoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreTest.swift; sourceTree = "<group>"; };
+		BC13EC7F2E6C8866006D7E2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BC364C802E6C89B4005CE59A /* FirebaseHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelpers.swift; sourceTree = "<group>"; };
+		BC364C822E6C92DA005CE59A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		BC364C842E6C9305005CE59A /* AddMedicineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMedicineView.swift; sourceTree = "<group>"; };
 		BC8E1CCB2E6C040B00EF3DCC /* canva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = canva.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = canvaApp.swift; sourceTree = "<group>"; };
 		BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +74,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC13EC782E6C7A85006D7E2A /* FirebaseMessaging in Frameworks */,
+				BC13EC722E6C7A85006D7E2A /* FirebaseAuth in Frameworks */,
+				BC13EC742E6C7A85006D7E2A /* FirebaseFirestore in Frameworks */,
+				BC13EC7A2E6C7A85006D7E2A /* FirebaseStorage in Frameworks */,
+				BC13EC762E6C7A85006D7E2A /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +102,7 @@
 		BC8E1CC22E6C040B00EF3DCC = {
 			isa = PBXGroup;
 			children = (
+				BC13EC6C2E6C790C006D7E2A /* GoogleService-Info.plist */,
 				BC8E1CCD2E6C040B00EF3DCC /* canva */,
 				BC8E1CDE2E6C040E00EF3DCC /* canvaTests */,
 				BC8E1CE82E6C040E00EF3DCC /* canvaUITests */,
@@ -95,9 +124,14 @@
 			isa = PBXGroup;
 			children = (
 				BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */,
+				BC13EC7F2E6C8866006D7E2A /* AppDelegate.swift */,
 				BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */,
+				BC13EC7B2E6C8463006D7E2A /* FirestoreTest.swift */,
 				BC8E1CD22E6C040E00EF3DCC /* Assets.xcassets */,
 				BC8E1CD42E6C040E00EF3DCC /* Preview Content */,
+				BC364C802E6C89B4005CE59A /* FirebaseHelpers.swift */,
+				BC364C822E6C92DA005CE59A /* RootTabView.swift */,
+				BC364C842E6C9305005CE59A /* AddMedicineView.swift */,
 			);
 			path = canva;
 			sourceTree = "<group>";
@@ -143,6 +177,13 @@
 			dependencies = (
 			);
 			name = canva;
+			packageProductDependencies = (
+				BC13EC712E6C7A85006D7E2A /* FirebaseAuth */,
+				BC13EC732E6C7A85006D7E2A /* FirebaseFirestore */,
+				BC13EC752E6C7A85006D7E2A /* FirebaseFirestoreSwift */,
+				BC13EC772E6C7A85006D7E2A /* FirebaseMessaging */,
+				BC13EC792E6C7A85006D7E2A /* FirebaseStorage */,
+			);
 			productName = canva;
 			productReference = BC8E1CCB2E6C040B00EF3DCC /* canva.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +256,9 @@
 				Base,
 			);
 			mainGroup = BC8E1CC22E6C040B00EF3DCC;
+			packageReferences = (
+				BC13EC702E6C7A84006D7E2A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = BC8E1CCC2E6C040B00EF3DCC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,6 +277,7 @@
 			files = (
 				BC8E1CD62E6C040E00EF3DCC /* Preview Assets.xcassets in Resources */,
 				BC8E1CD32E6C040E00EF3DCC /* Assets.xcassets in Resources */,
+				BC13EC6D2E6C790C006D7E2A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC13EC6E2E6C790C006D7E2A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC13EC6F2E6C790C006D7E2A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +304,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC364C812E6C89B4005CE59A /* FirebaseHelpers.swift in Sources */,
+				BC364C852E6C9305005CE59A /* AddMedicineView.swift in Sources */,
+				BC13EC802E6C8866006D7E2A /* AppDelegate.swift in Sources */,
 				BC8E1CD12E6C040B00EF3DCC /* ContentView.swift in Sources */,
+				BC13EC7C2E6C8463006D7E2A /* FirestoreTest.swift in Sources */,
+				BC364C832E6C92DA005CE59A /* RootTabView.swift in Sources */,
 				BC8E1CCF2E6C040B00EF3DCC /* canvaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,7 +318,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC13EC812E6C8866006D7E2A /* AppDelegate.swift in Sources */,
 				BC8E1CE02E6C040E00EF3DCC /* canvaTests.swift in Sources */,
+				BC13EC7D2E6C8463006D7E2A /* FirestoreTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +328,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC13EC822E6C8866006D7E2A /* AppDelegate.swift in Sources */,
 				BC8E1CEC2E6C040E00EF3DCC /* canvaUITestsLaunchTests.swift in Sources */,
+				BC13EC7E2E6C8463006D7E2A /* FirestoreTest.swift in Sources */,
 				BC8E1CEA2E6C040E00EF3DCC /* canvaUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,6 +480,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -452,6 +509,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -577,6 +635,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BC13EC702E6C7A84006D7E2A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BC13EC712E6C7A85006D7E2A /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC13EC702E6C7A84006D7E2A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		BC13EC732E6C7A85006D7E2A /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC13EC702E6C7A84006D7E2A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		BC13EC752E6C7A85006D7E2A /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC13EC702E6C7A84006D7E2A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		BC13EC772E6C7A85006D7E2A /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC13EC702E6C7A84006D7E2A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		BC13EC792E6C7A85006D7E2A /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC13EC702E6C7A84006D7E2A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BC8E1CC32E6C040B00EF3DCC /* Project object */;
 }

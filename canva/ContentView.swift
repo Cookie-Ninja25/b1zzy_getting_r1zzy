@@ -1,257 +1,378 @@
-//
-//  ContentView.swift
-//  canva
-//
-//  Created by Jerry Jin on 6/9/2025.
-//
-
-// HealingOnCountryApp.swift
-// iOS 15+ SwiftUI single-file MVP
-
 import SwiftUI
-import UserNotifications
+import FirebaseFirestore
 
 // MARK: - Models
-
-enum CycleKey: String, CaseIterable, Identifiable, Codable {
-    case sunrise, midday, sunset, night
-    var id: String { rawValue }
-    var label: String {
-        switch self {
-        case .sunrise: return "Sunrise"
-        case .midday:  return "Midday"
-        case .sunset:  return "Sunset"
-        case .night:   return "Night"
-        }
-    }
-    var emoji: String {
-        switch self {
-        case .sunrise: return "🌅"
-        case .midday:  return "🌞"
-        case .sunset:  return "🌄"
-        case .night:   return "🌙"
-        }
-    }
-    var notifyHour: Int {
-        switch self {
-        case .sunrise: return 8
-        case .midday:  return 12
-        case .sunset:  return 18
-        case .night:   return 22
-        }
-    }
+struct Intake: Identifiable {
+    let id = UUID()
+    var name: String
+    var taken: Bool
 }
 
-enum Totem: String, CaseIterable, Identifiable, Codable {
-    case turtle, river, wind, fire, tree, bird
-    var id: String { rawValue }
-    var emoji: String {
-        switch self {
-        case .turtle: return "🐢"
-        case .river:  return "💧"
-        case .wind:   return "🌬️"
-        case .fire:   return "🔥"
-        case .tree:   return "🌳"
-        case .bird:   return "🕊️"
-        }
-    }
-    var display: String { emoji + " " + rawValue.capitalized }
+// MARK: - Theme Colors
+extension Color {
+    static let cocoa   = Color(red: 38/255,  green: 16/255,  blue: 8/255)    // dark bg
+    static let cardBg  = Color.white
+    static let leaf    = Color(red: 119/255, green: 171/255, blue: 73/255)   // green
+    static let ochre   = Color(red: 191/255, green: 106/255, blue: 27/255)   // orange
+    static let clay    = Color(red: 96/255,  green: 54/255,  blue: 20/255)   // brown
 }
 
-struct Medicine: Identifiable, Codable {
-    var id: UUID = .init()
-    var totem: Totem
-    var cycles: [CycleKey]
-    var strength: Int = 60
-}
-
-// MARK: - Storage
-
-final class Store: ObservableObject {
-    @Published var meds: [Medicine] = [] { didSet { save() } }
-    private let key = "meds_v1"
-
-    init() { load() }
-
-    func add(totem: Totem, cycles: [CycleKey]) {
-        meds.append(Medicine(totem: totem, cycles: cycles))
-    }
-    func take(_ med: Medicine) {
-        if let idx = meds.firstIndex(where: { $0.id == med.id }) {
-            meds[idx].strength = min(100, meds[idx].strength + 10)
-        }
-    }
-    func miss(_ med: Medicine) {
-        if let idx = meds.firstIndex(where: { $0.id == med.id }) {
-            meds[idx].strength = max(0, meds[idx].strength - 10)
-        }
-    }
-
-    private func save() {
-        if let data = try? JSONEncoder().encode(meds) {
-            UserDefaults.standard.set(data, forKey: key)
-        }
-    }
-    private func load() {
-        if let data = UserDefaults.standard.data(forKey: key),
-           let m = try? JSONDecoder().decode([Medicine].self, from: data) {
-            meds = m
-        }
-    }
-}
-
-// MARK: - Notifications
-
-struct NotificationManager {
-    static func requestPermission() {
-        UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
-    }
-
-    static func scheduleDaily(cycle: CycleKey, id: String) {
-        let content = UNMutableNotificationContent()
-        content.title = "\(cycle.label) medicine"
-        content.body  = "Strengthen your totem now."
-        content.sound = .default
-
-        var dc = DateComponents()
-        dc.hour = cycle.notifyHour
-        dc.minute = 0
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dc, repeats: true)
-        let request = UNNotificationRequest(identifier: "cycle-\(cycle.rawValue)-\(id)",
-                                            content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-
-    static func clearAll() {
-        UNUserNotificationCenter.current()
-            .removeAllPendingNotificationRequests()
-    }
-}
-
-// MARK: - View
-
+// MARK: - ContentView
 struct ContentView: View {
-    @StateObject private var store = Store()
-    @State private var selectedTotem: Totem = .turtle
-    @State private var selectedCycles: Set<CycleKey> = [.sunrise, .sunset]
+    @State private var hasRun = false
+
+    @State private var mood = "Extremely Happy"
+    @State private var happeningTitle = "Clear Wind"
+    @State private var happeningSub   = "Diabetes Medicine"
+    @State private var upcomingTitle  = "Strong River"
+    @State private var upcomingSub    = "Vitamin Supplements"
+    @State private var intakes: [Intake] = [
+        .init(name: "Diabetes Medicine", taken: true),
+        .init(name: "Vitamin Supplements", taken: true),
+        .init(name: "Blood Pressure Medicine", taken: false),
+        .init(name: "Antibiotics", taken: false),
+        .init(name: "Antidepressants", taken: false)
+    ]
 
     var body: some View {
-        NavigationView {
-            VStack(spacing: 16) {
-                HStack(spacing: 10) {
-                    ForEach(CycleKey.allCases) { c in
-                        VStack(spacing: 6) {
-                            Text(c.emoji).font(.system(size: 28))
-                            Text(c.label).font(.caption).opacity(0.9)
+//        VStack(spacing: 16) {
+//             Text("Firestore Connectivity Test")
+//               .font(.headline)
+//
+//             Button("Write Test User") {
+//               Task { await fh_writeTestUser() }
+//             }
+//
+//             Button("Read Test User") {
+//               Task { await fh_readTestUser() }
+//             }
+//           }
+//           .padding()
+//           .task {
+//             // Auto-run once on first appearance (optional)
+//             guard !hasRun else { return }
+//             hasRun = true
+//             await fh_writeTestUser()
+//             await fh_readTestUser()
+//           }
+
+        ZStack {
+            Color.cocoa.ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: 20) {
+
+                    // Debug/test panel (optional)
+//                    Group {
+//                        Text("Hello, Firestore")
+//                            .font(.footnote).foregroundColor(.white.opacity(0.7))
+//                        Button("Write Test User to Firestore") {
+//                            //testFirestoreWrite()   // non-async test call
+//                        }
+//                        .font(.caption.bold())
+//                        .padding(.horizontal, 10).padding(.vertical, 6)
+//                        .background(Color.leaf).foregroundColor(.white)
+//                        .clipShape(Capsule())
+//                    }
+//                    .padding(.top, 8)
+
+                    // Header
+                    Text("Sunrise")
+                        .font(.system(size: 28, weight: .heavy))
+                        .foregroundColor(.ochre)
+
+                    Text("Keep your dingo strong today")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(.white.opacity(0.9))
+
+                    // Cycle Wheel
+                    CycleWheel()
+                        .frame(width: 240, height: 240)
+
+                    // Mood card
+                    StatusCard(mood: mood)
+
+                    // Two-column section:
+                    // Left = Happening over Upcoming (same width)
+                    // Right = Daily Intake (fills remaining space)
+                    HStack(alignment: .top, spacing: 12) {
+                        VStack(spacing: 12) {
+                            HappeningCard(
+                                title: happeningTitle,
+                                subtitle: happeningSub,
+                                onTaken: { /* mark taken */ },
+                                onSnooze: { /* snooze */ }
+                            )
+                            UpcomingCard(title: upcomingTitle, subtitle: upcomingSub)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(10)
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(12)
-                    }
-                }
 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Add Medicine").bold()
-                    Picker("Totem", selection: $selectedTotem) {
-                        ForEach(Totem.allCases) { t in
-                            Text(t.display).tag(t)
-                        }
+                        DailyIntake(intakes: $intakes)
                     }
-                    .pickerStyle(.menu)
-
-                    HStack {
-                        ForEach(CycleKey.allCases) { c in
-                            Button {
-                                if selectedCycles.contains(c) {
-                                    selectedCycles.remove(c)
-                                } else {
-                                    selectedCycles.insert(c)
-                                }
-                            } label: {
-                                HStack(spacing: 6) {
-                                    Text(c.emoji)
-                                    Text(c.label).font(.caption2)
-                                }
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 10)
-                                .background(selectedCycles.contains(c)
-                                    ? Color.green.opacity(0.25)
-                                    : Color.gray.opacity(0.2))
-                                .cornerRadius(10)
-                            }
-                        }
-                    }
-
-                    Button {
-                        let cycles = Array(selectedCycles)
-                        store.add(totem: selectedTotem, cycles: cycles)
-                        if let newId = store.meds.last?.id.uuidString {
-                            for c in cycles { NotificationManager.scheduleDaily(cycle: c, id: newId) }
-                        }
-                    } label: {
-                        Label("Add to Today", systemImage: "plus.circle.fill")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.accentColor.opacity(0.2))
-                            .cornerRadius(12)
-                    }
-                }
-
-                List {
-                    ForEach(store.meds) { med in
-                        VStack(alignment: .leading, spacing: 6) {
-                            HStack {
-                                Text(med.totem.emoji).font(.title2)
-                                Text(med.totem.rawValue.capitalized).bold()
-                                Spacer()
-                                Text("Strength \(med.strength)")
-                                    .font(.caption)
-                                    .padding(6)
-                                    .background(Color.blue.opacity(0.15))
-                                    .cornerRadius(8)
-                            }
-                            Text("Cycles: " + med.cycles.map { $0.label }.joined(separator: ", "))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-
-                            HStack {
-                                Button { store.take(med) } label: {
-                                    Label("I took it", systemImage: "checkmark.circle.fill")
-                                }
-                                .buttonStyle(.borderedProminent)
-
-                                Button(role: .destructive) { store.miss(med) } label: {
-                                    Label("Missed", systemImage: "xmark.circle.fill")
-                                }
-                                .buttonStyle(.bordered)
-                            }
-                        }
-                        .padding(.vertical, 4)
-                    }
-                }
-                .listStyle(.insetGrouped)
-            }
-            .padding()
-            .navigationTitle("Healing on Country")
-            .onAppear { NotificationManager.requestPermission() }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        NotificationManager.clearAll()
-                    } label: {
-                        Image(systemName: "bell.slash")
-                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 24)
                 }
             }
+        }
+        // If you want to run automatically at launch too:
+        // .onAppear { testFirestoreWrite() }
+    }
+}
+
+// MARK: - Firestore test helpers
+
+/// Simple completion-based write (works with current Firebase Firestore on iOS)
+//func testFirestoreWrite() {
+//    let db = Firestore.firestore()
+//    db.collection("users").addDocument(data: [
+//        "displayName": "Swift Test User",
+//        "createdAt": Timestamp(date: Date())
+//    ]) { error in
+//        if let error = error {
+//            print("Error writing document: \(error)")
+//        } else {
+//            print("Document successfully written!")
+//        }
+//    }
+//}
+
+/*
+// If you prefer async/await, you can wrap the addDocument in a continuation:
+func testFirestoreWriteAsync() async {
+    let db = Firestore.firestore()
+    let data: [String: Any] = [
+        "displayName": "Swift Test User (async)",
+        "createdAt": Timestamp(date: Date())
+    ]
+
+    do {
+        _ = try await withCheckedThrowingContinuation { continuation in
+            var ref: DocumentReference?
+            ref = db.collection("users").addDocument(data: data) { error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: ref)
+                }
+            }
+        }
+        print("Async document successfully written!")
+    } catch {
+        print("Async write failed: \(error)")
+    }
+}
+*/
+
+// MARK: - Cycle Wheel
+struct CycleWheel: View {
+    var body: some View {
+        ZStack {
+            Circle().fill(Color.ochre.opacity(0.3))
+            Circle().stroke(Color.black.opacity(0.3), lineWidth: 3)
+
+            VStack { Text("🌅").font(.title); Spacer() }
+                .padding(.top, 16)
+
+            VStack { Spacer(); Text("🌄").font(.title) }
+                .padding(.bottom, 16)
+
+            HStack { Text("🌙").font(.title); Spacer(); Text("🌞").font(.title) }
+                .padding(.horizontal, 24)
+
+            // Center dingo image
+            Circle()
+                .fill(Color.green.opacity(0.3))
+                .frame(width: 80, height: 80)
+                .overlay(
+                    Image("dingo")
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(Circle())
+                        .padding(6)
+                )
         }
     }
 }
 
+// MARK: - Status Card
+struct StatusCard: View {
+    var mood: String
+    var body: some View {
+        HStack {
+            Image("dingo")
+                .resizable()
+                .frame(width: 30, height: 30)
+                .clipShape(Circle())
+            Text("My dingo is feeling...")
+                .font(.subheadline)
+            Spacer()
+            Text(mood)
+                .font(.footnote.bold())
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(Color.leaf)
+                .cornerRadius(8)
+                .foregroundColor(.white)
+        }
+        .padding(10)
+        .background(Color.cardBg)
+        .cornerRadius(14)
+    }
+}
+
+// MARK: - Happening Card (fixed width)
+struct HappeningCard: View {
+    var title: String
+    var subtitle: String
+    var onTaken: () -> Void
+    var onSnooze: () -> Void
+
+    private let cardWidth: CGFloat = 180
+
+    var body: some View {
+        VStack(spacing: 8) {
+            Text("Happening")
+                .font(.caption.bold())
+                .foregroundColor(.white)
+                .padding(.horizontal, 10).padding(.vertical, 4)
+                .background(Color.leaf)
+                .clipShape(Capsule())
+
+            Image("dingo") // replace with specific art when available
+                .resizable().scaledToFit().frame(height: 44)
+
+            Text(title)
+                .font(.system(size: 18, weight: .heavy))
+                .foregroundColor(.clay)
+
+            Text(subtitle)
+                .font(.caption)
+                .foregroundColor(.gray)
+
+            HStack(spacing: 8) {
+                Button(action: onTaken) {
+                    Text("I took it!")
+                        .font(.caption.bold())
+                        .padding(.vertical, 8).frame(maxWidth: .infinity)
+                        .background(Color.leaf.opacity(0.9))
+                        .foregroundColor(.white)
+                        .clipShape(Capsule())
+                }
+                Button(action: onSnooze) {
+                    Text("Snooze")
+                        .font(.caption.bold())
+                        .padding(.vertical, 8).frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(.clay)
+                        .clipShape(Capsule())
+                }
+            }
+        }
+        .padding(12)
+        .frame(width: cardWidth)
+        .background(Color.cardBg)
+        .cornerRadius(18)
+        .shadow(color: .black.opacity(0.1), radius: 6, y: 3)
+    }
+}
+
+// MARK: - Upcoming Card (same width as Happening, stacked beneath)
+struct UpcomingCard: View {
+    var title: String
+    var subtitle: String
+
+    private let cardWidth: CGFloat = 180
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Upcoming")
+                .font(.caption.bold())
+                .foregroundColor(.clay)
+                .padding(.horizontal, 8).padding(.vertical, 2)
+                .background(Color.white)
+                .clipShape(Capsule())
+
+            Text(title)
+                .font(.system(size: 18, weight: .heavy))
+                .foregroundColor(.white)
+
+            Text(subtitle)
+                .font(.caption)
+                .foregroundColor(.white.opacity(0.7))
+
+            HStack {
+                Spacer()
+                Image("dingo") // placeholder; swap to river art later
+                    .resizable().scaledToFit().frame(height: 30)
+            }
+        }
+        .padding(12)
+        .frame(width: cardWidth)
+        .background(Color.clay)
+        .cornerRadius(18)
+        .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+    }
+}
+
+// MARK: - Daily Intake (fills right column)
+struct DailyIntake: View {
+    @Binding var intakes: [Intake]
+
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color.ochre)
+                .shadow(color: .black.opacity(0.1), radius: 6, y: 3)
+
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Daily Intake")
+                    .font(.footnote.bold())
+                    .foregroundColor(.clay)
+                    .padding(.horizontal, 10).padding(.vertical, 4)
+                    .background(Color.white)
+                    .clipShape(Capsule())
+                    .padding(.top, 10)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    ForEach($intakes) { $item in
+                        HStack(spacing: 8) {
+                            CheckBox(checked: $item.taken)
+                            Text(item.name)
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.white)
+                        }
+                    }
+                }
+                .padding(.bottom, 12)
+            }
+            .padding(.horizontal, 12)
+        }
+        .frame(maxWidth: .infinity, minHeight: 180)
+    }
+}
+
+struct CheckBox: View {
+    @Binding var checked: Bool
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5)
+                .strokeBorder(Color.white, lineWidth: 2)
+                .frame(width: 22, height: 22)
+                .background(checked ? Color.white.opacity(0.15) : Color.clear)
+                .cornerRadius(5)
+            if checked {
+                Image(systemName: "checkmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.white)
+            }
+        }
+        .onTapGesture { checked.toggle() } // no animation for compatibility
+    }
+}
+
+// MARK: - Preview
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
