@@ -1,12 +1,12 @@
 # b1zzy_getting_r1zzy
 This repo is the 2025 Canva x COMM-STEM Competition
 
-# 🌱 Healing on Country – Culturally Safe Medication Support App  
+# 🌱 Totem – Culturally Safe Medication Support App  
 
 ## 📖 Project Description  
-**Healing on Country** is a mobile health app co-designed with Aboriginal perspectives to address the urgent challenge of **medication non-adherence among Aboriginal and Torres Strait Islander peoples**.  
+**Totem** is a mobile health app co-designed with Aboriginal perspectives to address the urgent challenge of **medication non-adherence among Aboriginal and Torres Strait Islander peoples**.  
 
-Instead of framing medicines as “Western tablets,” the app uses **biomimicry and Indigenous knowledge systems** to re-embed medicine into the cycles of **nature, mob, and Country**. By blending cultural symbols, storytelling, and collective care, Healing on Country transforms adherence from a confusing medical routine into a meaningful act of connection.  
+Instead of framing medicines as “Western tablets,” the app uses **biomimicry and Indigenous knowledge systems** to re-embed medicine into the cycles of **nature, mob, and Country**. By blending cultural symbols, storytelling, and collective care, Totem transforms adherence from a confusing medical routine into a meaningful act of connection.  
 
 ---
 
