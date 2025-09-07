@@ -75,7 +75,7 @@ struct AddMedicineView: View {
                     .frame(maxWidth: .infinity)
 
                     // Wheel (placeholder / reuse your CycleWheel)
-                    CycleWheel()
+                    TimeWheel()
                         .frame(width: 220, height: 220)
                         .frame(maxWidth: .infinity)
 

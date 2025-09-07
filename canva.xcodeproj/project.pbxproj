@@ -29,6 +29,7 @@
 		BC4EFAF72E6CB31100163F25 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAF62E6CB31100163F25 /* ScheduleViewModel.swift */; };
 		BC4EFAF92E6CB33500163F25 /* CategoryAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAF82E6CB33500163F25 /* CategoryAssets.swift */; };
 		BC4EFAFB2E6CB42200163F25 /* MedicineCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAFA2E6CB42200163F25 /* MedicineCards.swift */; };
+		BC4EFAFD2E6D031300163F25 /* MedicineModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4EFAFC2E6D031300163F25 /* MedicineModels.swift */; };
 		BC8E1CCF2E6C040B00EF3DCC /* canvaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */; };
 		BC8E1CD12E6C040B00EF3DCC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */; };
 		BC8E1CD32E6C040E00EF3DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC8E1CD22E6C040E00EF3DCC /* Assets.xcassets */; };
@@ -67,6 +68,7 @@
 		BC4EFAF62E6CB31100163F25 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		BC4EFAF82E6CB33500163F25 /* CategoryAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAssets.swift; sourceTree = "<group>"; };
 		BC4EFAFA2E6CB42200163F25 /* MedicineCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineCards.swift; sourceTree = "<group>"; };
+		BC4EFAFC2E6D031300163F25 /* MedicineModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineModels.swift; sourceTree = "<group>"; };
 		BC8E1CCB2E6C040B00EF3DCC /* canva.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = canva.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8E1CCE2E6C040B00EF3DCC /* canvaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = canvaApp.swift; sourceTree = "<group>"; };
 		BC8E1CD02E6C040B00EF3DCC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				BC4EFAF42E6CAC7D00163F25 /* DailyIntakeDynamic.swift */,
 				BC4EFAF62E6CB31100163F25 /* ScheduleViewModel.swift */,
 				BC4EFAFA2E6CB42200163F25 /* MedicineCards.swift */,
+				BC4EFAFC2E6D031300163F25 /* MedicineModels.swift */,
 			);
 			path = canva;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				BC13EC802E6C8866006D7E2A /* AppDelegate.swift in Sources */,
 				BC4EFAF72E6CB31100163F25 /* ScheduleViewModel.swift in Sources */,
 				BC4EFAF52E6CAC7D00163F25 /* DailyIntakeDynamic.swift in Sources */,
+				BC4EFAFD2E6D031300163F25 /* MedicineModels.swift in Sources */,
 				BC8E1CD12E6C040B00EF3DCC /* ContentView.swift in Sources */,
 				BC13EC7C2E6C8463006D7E2A /* FirestoreTest.swift in Sources */,
 				BC364C832E6C92DA005CE59A /* RootTabView.swift in Sources */,
@@ -495,6 +499,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"canva/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Dingo;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -524,6 +529,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"canva/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Dingo;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

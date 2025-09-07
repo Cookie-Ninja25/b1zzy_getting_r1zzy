@@ -7,9 +7,8 @@
 
 import Foundation
 import SwiftUI
-import FirebaseFirestore
 
-// MARK: - Order helper (Sunrise → Midday → Sunset → Night)
+// Helper: Sunrise → Midday → Sunset → Night (used for small subtitle)
 func periodOrder(_ p: TimeOfDay) -> Int {
     switch p {
     case .sunrise: return 0
@@ -19,63 +18,9 @@ func periodOrder(_ p: TimeOfDay) -> Int {
     }
 }
 
-// MARK: - Firestore model
-struct MedicineDoc: Identifiable {
-    let id: String
-    let name: String
-    let category: MedCategory
-    let times: [TimeOfDay]
-    var takenToday: Bool = false   // local UI state for MVP
-}
-
-final class DailyIntakeVM: ObservableObject {
-    @Published var rows: [MedicineDoc] = []
-    private var listener: ListenerRegistration?
-
-    init() { listen() }
-
-    deinit { listener?.remove() }
-
-    func listen() {
-        let db = Firestore.firestore()
-        listener?.remove()
-        listener = db.collection("medicines")
-            .addSnapshotListener { [weak self] snap, err in
-                guard let self else { return }
-                if let _ = err { self.rows = []; return }
-                let docs = snap?.documents ?? []
-
-                self.rows = docs.compactMap { d in
-                    let data = d.data()
-
-                    let name = data["name"] as? String ?? "Medicine"
-                    let catStr = data["category"] as? String ?? MedCategory.diabetes.rawValue
-                    let category = MedCategory(rawValue: catStr) ?? .diabetes
-
-                    let timeStrings = (data["times"] as? [String]) ?? []
-                    let times = timeStrings.compactMap { TimeOfDay(rawValue: $0) }
-                    return MedicineDoc(id: d.documentID, name: name, category: category, times: times.isEmpty ? [.sunrise] : times)
-                }
-                // Sort by earliest selected time period; then by category/name
-                self.rows.sort {
-                    let aP = $0.times.min(by: { periodOrder($0) < periodOrder($1) }) ?? .sunrise
-                    let bP = $1.times.min(by: { periodOrder($0) < periodOrder($1) }) ?? .sunrise
-                    if periodOrder(aP) != periodOrder(bP) {
-                        return periodOrder(aP) < periodOrder(bP)
-                    }
-                    // secondary sort – category, name
-                    if $0.category.rawValue != $1.category.rawValue {
-                        return $0.category.rawValue < $1.category.rawValue
-                    }
-                    return $0.name < $1.name
-                }
-            }
-    }
-}
-
-// MARK: - View
+// MARK: - View bound to ScheduleViewModel (single source of truth)
 struct DailyIntakeDynamic: View {
-    @StateObject private var vm = DailyIntakeVM()
+    @ObservedObject var vm: ScheduleViewModel   // pass the SAME instance from ContentView
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -88,25 +33,31 @@ struct DailyIntakeDynamic: View {
                 Text("Daily Intake")
                     .font(.footnote.bold())
                     .foregroundColor(.clay)
-                    .padding(.horizontal, 10).padding(.vertical, 4)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
                     .background(Color.white)
                     .clipShape(Capsule())
                     .padding(.top, 10)
 
-                // Sorted rows
+                // Rows
                 VStack(alignment: .leading, spacing: 14) {
-                    ForEach(vm.rows.indices, id: \.self) { idx in
+                    // Use indices to create writable bindings into vm.items
+                    ForEach(vm.items.indices, id: \.self) { idx in
+                        let med = vm.items[idx]
                         IntakeRow(
                             checked: Binding(
-                                get: { vm.rows[idx].takenToday },
-                                set: { vm.rows[idx].takenToday = $0 }
+                                get: { vm.items[idx].takenToday },
+                                set: { newVal in
+                                    vm.items[idx].takenToday = newVal
+                                    // Optional: persist per-day status to Firestore if you add a field
+                                }
                             ),
-                            title: vm.rows[idx].category.rawValue,
-                            period: vm.rows[idx].times.min(by: { periodOrder($0) < periodOrder($1) }) ?? .sunrise
+                            title: med.name,
+                            period: med.times.min(by: { periodOrder($0) < periodOrder($1) }) ?? .sunrise
                         )
                     }
 
-                    if vm.rows.isEmpty {
+                    if vm.items.isEmpty {
                         Text("No medicines yet.\nAdd one to see it here.")
                             .foregroundColor(.white.opacity(0.8))
                             .font(.subheadline)
@@ -133,8 +84,7 @@ private struct IntakeRow: View {
                 Text(title)
                     .foregroundColor(.white)
                     .font(.system(size: 18, weight: .semibold))
-                // Small subtitle showing which period this row belongs to
-                Text(period.rawValue)
+                Text(period.rawValue.capitalized)
                     .font(.caption)
                     .foregroundColor(.white.opacity(0.85))
             }
@@ -145,7 +95,7 @@ private struct IntakeRow: View {
     }
 }
 
-// (re-use your existing CheckBox view)
+// MARK: - Reusable CheckBox
 struct CheckBox: View {
     @Binding var checked: Bool
     var body: some View {
@@ -164,3 +114,4 @@ struct CheckBox: View {
         .onTapGesture { checked.toggle() }
     }
 }
+
